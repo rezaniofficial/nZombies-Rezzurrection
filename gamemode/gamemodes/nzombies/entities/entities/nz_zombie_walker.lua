@@ -227,7 +227,7 @@ function ENT:SpecialInit()
 end
 
 function ENT:OnSpawn()
-
+	self:SetSubMaterial(2, "vgui/black.vtf")
 	local seq = self.EmergeSequences[self:GetEmergeSequenceIndex()]
 	local _, dur = self:LookupSequence(seq)
 
