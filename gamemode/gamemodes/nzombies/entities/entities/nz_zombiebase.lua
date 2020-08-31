@@ -364,11 +364,12 @@ function ENT:Stop()
 	self:SetTarget(nil)
 end
 
---Draw sppoky red eyes
-local eyeglow =  Material( "sprites/redglow1" )
-local white = Color( 255, 255, 255, 255 )
+--Draw correct eyes
+local eyeglow =  Material( "nzr/nz/zlight" )
+local defaultColor = Color(0, 255, 255, 255)
 
 function ENT:Draw()
+	local eyeColor = !IsColor(nzMapping.Settings.zombieeyecolor) and defaultColor or nzMapping.Settings.zombieeyecolor
 	self:DrawModel()
 	if self.RedEyes then
 		--local eyes = self:GetAttachment(self:LookupAttachment("eyes")).Pos
@@ -385,21 +386,21 @@ function ENT:Draw()
 		local lefteyepos
 		
 		if lefteye and righteye then
-			lefteyepos = lefteye.Pos
-			righteyepos = righteye.Pos
+			lefteyepos = lefteye.Pos + self:GetForward() * 1.0
+			righteyepos = righteye.Pos+ self:GetForward() * 1.0
 		else
 			local eyes = self:GetAttachment(self:LookupAttachment("eyes"))
 			if eyes then
-				lefteyepos = eyes.Pos + self:GetRight() * -1.5 + self:GetForward() * 0.5
-				righteyepos = eyes.Pos + self:GetRight() * 1.5 + self:GetForward() * 0.5
+				lefteyepos = eyes.Pos + self:GetRight() * -1.5 + self:GetForward() * 1.0
+				righteyepos = eyes.Pos + self:GetRight() * 1.5 + self:GetForward() * 1.0
 			end
 		end
 		
 		if lefteyepos and righteyepos then
 			cam.Start3D(EyePos(),EyeAngles())
-				render.SetMaterial( eyeglow )
-				render.DrawSprite( lefteye.Pos, 4, 4, white)
-				render.DrawSprite( righteye.Pos, 4, 4, white)
+				render.SetMaterial(eyeglow)
+				render.DrawSprite( lefteyepos, 4, 4, eyeColor)
+				render.DrawSprite( righteyepos, 4, 4, eyeColor)
 			cam.End3D()
 		end
 	end
