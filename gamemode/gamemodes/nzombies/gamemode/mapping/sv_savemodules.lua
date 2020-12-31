@@ -235,18 +235,32 @@ nzMapping:AddSaveModule("ElecSpawns", {
 nzMapping:AddSaveModule("BlockSpawns", {
 	savefunc = function()
 		local block_spawns = {}
+		
 		for _, v in pairs(ents.FindByClass("wall_block")) do
+			-- Convert the table to a flag string - if it even has any
+			local data = v:GetDoorData()
+			local flagstr
+			if data then
+				flagstr = ""
+				for k2, v2 in pairs(data) do
+					flagstr = flagstr .. k2 .."=" .. v2 .. ","
+				end
+				flagstr = string.Trim(flagstr, ",")
+			end
+
 			table.insert(block_spawns, {
 			pos = v:GetPos(),
 			angle = v:GetAngles(),
 			model = v:GetModel(),
+			flags = flagstr,
 			})
 		end
+		
 		return block_spawns
 	end,
 	loadfunc = function(data)
 		for k,v in pairs(data) do
-			nzMapping:BlockSpawn(v.pos, v.angle, v.model)
+			nzMapping:BlockSpawn(v.pos, v.angle, v.model, v.flags)
 		end
 	end,
 	cleanents = {"wall_block"},

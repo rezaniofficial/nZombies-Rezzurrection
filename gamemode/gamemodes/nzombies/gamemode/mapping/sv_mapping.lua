@@ -186,7 +186,7 @@ function nzMapping:Electric(pos, ang, model, ply)
 	return ent
 end
 
-function nzMapping:BlockSpawn(pos, ang, model, ply)
+function nzMapping:BlockSpawn(pos, ang, model, flags, ply)
 	local block = ents.Create( "wall_block" )
 	
 	-- Replace with nZombies versions of the same model (if exist) which are grate-based (bullets go through)
@@ -202,6 +202,11 @@ function nzMapping:BlockSpawn(pos, ang, model, ply)
 	block:Spawn()
 	block:PhysicsInit( SOLID_VPHYSICS )
 	print(block:GetModel())
+
+	-- REMINDER APPLY FLAGS
+	if flags != nil then
+		nzDoors:CreateLink( block, flags )
+	end
 
 	local phys = block:GetPhysicsObject()
 	if IsValid(phys) then
