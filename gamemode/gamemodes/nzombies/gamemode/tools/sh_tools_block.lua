@@ -99,10 +99,10 @@ nzTools:CreateTool("block", {
 	PrimaryAttack = function(wep, ply, tr, data)
 		local ent = tr.Entity
 		if IsValid(ent) and ent:GetClass() == "wall_block" then
-			nzMapping:BlockSpawn(ent:GetPos(),ent:GetAngles(), data.model, ply)
+			nzMapping:BlockSpawn(ent:GetPos(),ent:GetAngles(), data.model, nil, ply)
 			ent:Remove()
 		else
-			nzMapping:BlockSpawn(tr.HitPos,Angle(90,(tr.HitPos - ply:GetPos()):Angle()[2] + 90,90), data.model, ply)
+			nzMapping:BlockSpawn(tr.HitPos,Angle(90,(tr.HitPos - ply:GetPos()):Angle()[2] + 90,90), data.model, nil, ply)
 		end
 	end,
 	SecondaryAttack = function(wep, ply, tr, data)
