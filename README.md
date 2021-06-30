@@ -1,2 +1,2 @@
 # nZombies-Rezzurection
-An updated version of nZombies 1.0 for Garry's Mod
+fucking around trying to fix bugs i have.
